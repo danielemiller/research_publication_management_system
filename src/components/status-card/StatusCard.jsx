@@ -9,8 +9,13 @@ const StatusCard = props => {
                 <i className={props.icon}></i>
             </div>
             <div className="status-card__info">
-                <h4>{props.count}</h4>
-                <span>{props.title}</span>
+                <h4>{props.description}</h4>
+                <span>{`${props.header}: ${props.status}`}</span>
+                <span>{`${props.header}: ${props.year}`}</span>
+                <span>{`${props.header}: ${props.isFirstAuthor}`}</span>
+                <span>{`${props.header}: ${props.isSubmited}`}</span>
+                <span>{`${props.header}: ${props.decision}`}</span>
+                <span>{`${props.header}: ${props.citation}`}</span>
             </div>
         </div>
     )

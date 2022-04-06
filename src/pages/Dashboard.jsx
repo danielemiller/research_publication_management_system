@@ -166,6 +166,8 @@ const Dashboard = () => {
 
     const themeReducer = useSelector(state => state.ThemeReducer.mode)
     const [ myData, setMyData ] = useState({})
+    const [ headers, setHeaders ] = useState([])
+    const [ abstracts, setAbstracts ] = useState([])
 
 
     const getData = () => {
@@ -188,30 +190,49 @@ const Dashboard = () => {
 
     }
 
+    const getAbstracts = () => {
+        // eslint-disable-next-line no-undef
+        google.script.run.withSuccessHandler(data => {
+            const headers = data[0];
+            localStorage.setItem('headers', headers)
+            const abstracts = data.slice(1);
+            localStorage.setItem('data', abstracts)
+        }).withFailureHandler(er => {
+            alert('fail')
+            console.log('Did not succeed this time.')
+        }).getAbstracts()
+
+        let newHeaders = localStorage.getItem('headers');
+        let newAbstracts = localStorage.getItem('abstracts')
+        
+        setHeaders((headers) => [...headers, newHeaders] )
+        setAbstracts((abstracts) => [...abstracts, ...newAbstracts])
+
+    }
+
     return (
         <div>
             <h2 className="page-header">Dashboard</h2>
-            <button onClick={getData}>Click Me</button>
+            <button onClick={getAbstracts}>Click Me</button>
             <div className="row">
                 <div className="col-6">
                     <div className="row">
                         {
-                            statusCards.map((item, index) => (
+                            abstracts.map((item, index) => (
                                 <div className="col-6" key={index}>
                                     <StatusCard
-                                        icon={item.icon}
-                                        count={item.count}
-                                        title={item.title}
+                                        icon={'bx bx-cart'}
+                                        header={headers}
+                                        description={item[0]}
+                                        year={item[1]}
+                                        isFirstAuthor={item[2]}
+                                        isSubmited={item[3]}
+                                        decision={item[4]}
+                                        citation={item[5]}
                                     />
                                 </div>
                             ))
                         }
-                    </div>
-                    <div className="row">
-                        <StatusCard 
-                        count={myData.company}
-                        title={myData.position}
-                        />
                     </div>
                 </div>
                 <div className="col-6">
