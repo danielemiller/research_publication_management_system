@@ -206,7 +206,7 @@ const Dashboard = () => {
         let newAbstracts = localStorage.getItem('abstracts')
         
         setHeaders((headers) => [...headers, newHeaders] )
-        setAbstracts((abstracts) => [...abstracts, ...newAbstracts])
+        setAbstracts((abstracts) => [...abstracts, newAbstracts])
 
     }
 
